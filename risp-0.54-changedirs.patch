@@ -1,0 +1,33 @@
+diff -Naur risp/index.php risp patch/index.php
+--- risp/index.php	2013-02-01 19:49:14.000000000 +0400
++++ risp patch/index.php	2013-08-28 12:15:46.514447054 +0400
+@@ -45,7 +45,21 @@
+ 		<table class="menutable" width="50%" style="float:left;">
+ 		<tr>
+ 			<td nowrap><b>path / file:</b></td>
+-			<td colspan="3" nowrap><input type="text" size=80 id="location" value="<?php echo BASEDIR; ?>" title="enter path to PHP file(s)">
++			<td colspan="3" nowrap>
++                <input type="text" size=80 id="location" value="<?php echo BASEDIR; ?>" title="enter path to PHP file(s)"> <br />
++                root dirs: 
++                <select onchange="document.getElementById('location').value = this.value;">
++                    <option disabled selected></option>
++                    <option><?php echo $_SERVER['DOCUMENT_ROOT']?></option>
++                    <?php
++                        $currentDir = basename(__DIR__);
++                        foreach (glob($_SERVER['DOCUMENT_ROOT']."/*", GLOB_ONLYDIR) as $object) {
++                        if($currentDir == basename($object))
++                            continue;
++                    ?>
++                    <option><?php echo $object ?></option>
++                    <?php } ?>
++                </select>
+ 			</td>
+ 			<td nowrap><input type="checkbox" id="subdirs" value="1" title="check to scan subdirectories" />subdirs
+ 			</td>
+@@ -201,4 +215,4 @@
+ </div>
+ 
+ </body>
+-</html>
+\ В конце файла нет новой строки
++</html>
